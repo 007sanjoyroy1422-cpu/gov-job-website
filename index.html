@@ -19,13 +19,14 @@
     }
     .filters {
       padding: 15px;
-      text-align: center;
       background: white;
+      text-align: center;
     }
-    select {
+    input, select {
       padding: 8px;
       margin: 5px;
-      width: 45%;
+      width: 90%;
+      max-width: 400px;
     }
     .job-box {
       background-color: white;
@@ -63,14 +64,16 @@
 </header>
 
 <div class="filters">
+  <input type="text" id="searchBox" placeholder="Search job (SSC, Railway, Police...)">
+
   <select id="stateFilter">
-    <option value="">Select State</option>
+    <option value="">All States</option>
     <option value="All India">All India</option>
     <option value="West Bengal">West Bengal</option>
   </select>
 
   <select id="qualificationFilter">
-    <option value="">Select Qualification</option>
+    <option value="">All Qualifications</option>
     <option value="10th">10th</option>
     <option value="10th / ITI">10th / ITI</option>
   </select>
@@ -81,14 +84,18 @@
 <script src="jobs.js"></script>
 <script>
   const jobList = document.getElementById("job-list");
+  const searchBox = document.getElementById("searchBox");
   const stateFilter = document.getElementById("stateFilter");
   const qualificationFilter = document.getElementById("qualificationFilter");
 
   function renderJobs() {
     jobList.innerHTML = "";
 
+    const searchText = searchBox.value.toLowerCase();
+
     const filtered = jobs.filter(job => {
       return (
+        (searchText === "" || job.title.toLowerCase().includes(searchText)) &&
         (stateFilter.value === "" || job.state === stateFilter.value) &&
         (qualificationFilter.value === "" || job.qualification === qualificationFilter.value)
       );
@@ -108,6 +115,7 @@
     });
   }
 
+  searchBox.addEventListener("input", renderJobs);
   stateFilter.addEventListener("change", renderJobs);
   qualificationFilter.addEventListener("change", renderJobs);
 
