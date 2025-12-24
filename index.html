@@ -64,22 +64,28 @@
 
   <section>
     <h2>Latest Jobs</h2>
-
-    <div class="job-box">
-      <h3>SSC GD Constable</h3>
-      <p>Qualification: 10th Pass</p>
-      <p>Last Date: 30 June 2025</p>
-      <a href="ssc-gd.html" class="button">View Details</a>
-    </div>
-
-    <div class="job-box">
-      <h3>Railway Group D</h3>
-      <p>Qualification: 10th / ITI</p>
-      <p>Last Date: 15 July 2025</p>
-      <a href="railway-group-d.html" class="button">View Details</a>
-    </div>
-
+    <div id="job-list"></div>
   </section>
+
+  <script src="jobs.js"></script>
+
+  <script>
+    const jobList = document.getElementById("job-list");
+
+    jobs.forEach(job => {
+      const div = document.createElement("div");
+      div.className = "job-box";
+
+      div.innerHTML = `
+        <h3>${job.title}</h3>
+        <p>Qualification: ${job.qualification}</p>
+        <p>Last Date: ${job.lastDate}</p>
+        <a href="${job.link}" class="button">View Details</a>
+      `;
+
+      jobList.appendChild(div);
+    });
+  </script>
 
 </body>
 </html>
