@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Job Details - Govt Job</title>
+  <title>Job Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -11,40 +11,30 @@
       font-family: Arial, sans-serif;
       background-color: #f4f6f8;
     }
-
     header {
       background-color: #1a73e8;
       color: white;
       padding: 20px;
       text-align: center;
     }
-
     .container {
-      padding: 20px;
       max-width: 600px;
-      margin: auto;
-      background-color: white;
-      margin-top: 20px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-
     h2 {
       color: #1a73e8;
     }
-
-    p {
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .apply-btn {
+    a.apply {
       display: block;
       margin-top: 20px;
       padding: 12px;
-      text-align: center;
-      background-color: #1a73e8;
+      background: #1a73e8;
       color: white;
+      text-align: center;
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
@@ -54,28 +44,39 @@
 
 <body>
 
-  <header>
-    <h1>SSC GD Constable</h1>
-    <p>Government of India</p>
-  </header>
+<header>
+  <h1 id="title">Job Title</h1>
+</header>
 
-  <div class="container">
-    <h2>Job Details</h2>
+<div class="container">
+  <p><b>Qualification:</b> <span id="qualification"></span></p>
+  <p><b>Vacancy:</b> <span id="vacancy"></span></p>
+  <p><b>Age Limit:</b> <span id="age"></span></p>
+  <p><b>Last Date:</b> <span id="lastDate"></span></p>
 
-    <p><b>Post Name:</b> SSC GD Constable</p>
-    <p><b>Total Vacancy:</b> 26146</p>
-    <p><b>Qualification:</b> 10th Pass</p>
-    <p><b>Age Limit:</b> 18 – 23 Years</p>
-    <p><b>Last Date:</b> 30 June 2025</p>
+  <h2>Selection Process</h2>
+  <p id="process"></p>
 
-    <h2>Selection Process</h2>
-    <p>Written Exam → Physical Test → Medical Test</p>
+  <a id="apply" class="apply" href="#">Apply Online</a>
+</div>
 
-    <h2>How to Apply</h2>
-    <p>Apply online through official SSC website.</p>
+<script src="jobs.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get("id"));
 
-    <a href="#" class="apply-btn">Apply Online</a>
-  </div>
+  const job = jobs.find(j => j.id === id);
+
+  if (job) {
+    document.getElementById("title").innerText = job.title;
+    document.getElementById("qualification").innerText = job.qualification;
+    document.getElementById("vacancy").innerText = job.vacancy;
+    document.getElementById("age").innerText = job.age;
+    document.getElementById("lastDate").innerText = job.lastDate;
+    document.getElementById("process").innerText = job.process;
+    document.getElementById("apply").href = job.apply;
+  }
+</script>
 
 </body>
 </html>
