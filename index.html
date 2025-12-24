@@ -12,17 +12,14 @@
       background-color: #f4f6f8;
       text-align: center;
     }
-
     header {
       background-color: #1a73e8;
       color: white;
       padding: 20px;
     }
-
     section {
       padding: 20px;
     }
-
     .job-box {
       background-color: white;
       padding: 15px;
@@ -32,17 +29,14 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       text-align: left;
     }
-
     .job-box h3 {
       margin: 0;
       color: #1a73e8;
     }
-
     .job-box p {
       margin: 5px 0;
       font-size: 14px;
     }
-
     a.button {
       display: inline-block;
       margin-top: 10px;
@@ -57,35 +51,32 @@
 
 <body>
 
-  <header>
-    <h1>All India Govt Jobs</h1>
-    <p>Latest Government Job Updates</p>
-  </header>
+<header>
+  <h1>All India Govt Jobs</h1>
+  <p>Latest Government Job Updates</p>
+</header>
 
-  <section>
-    <h2>Latest Jobs</h2>
-    <div id="job-list"></div>
-  </section>
+<section>
+  <h2>Latest Jobs</h2>
+  <div id="job-list"></div>
+</section>
 
-  <script src="jobs.js"></script>
+<script src="jobs.js"></script>
+<script>
+  const list = document.getElementById("job-list");
 
-  <script>
-    const jobList = document.getElementById("job-list");
-
-    jobs.forEach(job => {
-      const div = document.createElement("div");
-      div.className = "job-box";
-
-      div.innerHTML = `
-        <h3>${job.title}</h3>
-        <p>Qualification: ${job.qualification}</p>
-        <p>Last Date: ${job.lastDate}</p>
-        <a href="${job.link}" class="button">View Details</a>
-      `;
-
-      jobList.appendChild(div);
-    });
-  </script>
+  jobs.forEach(job => {
+    const div = document.createElement("div");
+    div.className = "job-box";
+    div.innerHTML = `
+      <h3>${job.title}</h3>
+      <p>Qualification: ${job.qualification}</p>
+      <p>Last Date: ${job.lastDate}</p>
+      <a href="job.html?id=${job.id}" class="button">View Details</a>
+    `;
+    list.appendChild(div);
+  });
+</script>
 
 </body>
 </html>
