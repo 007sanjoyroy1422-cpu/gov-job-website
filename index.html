@@ -1,22 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Gov Job Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      text-align: center;
       background-color: #f4f6f8;
+      text-align: center;
     }
-    h1 {
+
+    header {
+      background-color: #1a73e8;
+      color: white;
+      padding: 20px;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .job-box {
+      background-color: white;
+      padding: 15px;
+      margin: 15px auto;
+      max-width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .job-box h3 {
+      margin: 0;
       color: #1a73e8;
     }
-  </style>
 
+    .job-box p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Welcome to Gov Job Website</h1>
-  <p>All India Government Job Updates</p>
+
+  <header>
+    <h1>All India Govt Jobs</h1>
+    <p>Latest Government Job Updates</p>
+  </header>
+
+  <section>
+    <h2>Latest Jobs</h2>
+
+    <div class="job-box">
+      <h3>SSC GD Constable</h3>
+      <p>Qualification: 10th Pass</p>
+      <p>Last Date: 30 June 2025</p>
+      <button>View Details</button>
+    </div>
+
+    <div class="job-box">
+      <h3>Railway Group D</h3>
+      <p>Qualification: 10th / ITI</p>
+      <p>Last Date: 15 July 2025</p>
+      <button>View Details</button>
+    </div>
+
+  </section>
+
 </body>
 </html>
