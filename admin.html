@@ -11,7 +11,6 @@
       font-family: Arial, sans-serif;
       background-color: #f4f6f8;
     }
-
     header {
       background-color: #1a73e8;
       color: white;
@@ -20,33 +19,23 @@
       font-size: 20px;
       font-weight: bold;
     }
-
     .container {
       padding: 15px;
     }
-
-    input, button {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin-bottom: 12px;
       font-size: 15px;
     }
-
     button {
       background-color: #1a73e8;
       color: white;
       border: none;
       border-radius: 5px;
     }
-
     .hidden {
       display: none;
-    }
-
-    .note {
-      font-size: 13px;
-      color: #555;
-      margin-top: 10px;
     }
   </style>
 </head>
@@ -55,33 +44,35 @@
 
 <header>Admin Panel</header>
 
-<!-- LOGIN SECTION -->
 <div class="container" id="loginBox">
   <input type="password" id="password" placeholder="Enter Admin Password">
   <button onclick="login()">Login</button>
 </div>
 
-<!-- ADMIN SECTION -->
 <div class="container hidden" id="adminBox">
   <input id="title" placeholder="Job Title">
   <input id="qualification" placeholder="Qualification">
   <input id="lastDate" placeholder="Last Date">
   <input id="age" placeholder="Age Limit">
 
-  <button onclick="addJob()">Add Job</button>
+  <select id="state">
+    <option value="">Select State</option>
+    <option>All India</option>
+    <option>West Bengal</option>
+    <option>Delhi</option>
+    <option>Uttar Pradesh</option>
+    <option>Bihar</option>
+    <option>Maharashtra</option>
+  </select>
 
-  <div class="note">
-    Only admin can add jobs.
-  </div>
+  <button onclick="addJob()">Add Job</button>
 </div>
 
 <script>
-  const ADMIN_PASSWORD = "12345"; // তুমি চাইলে change করতে পারো
+  const ADMIN_PASSWORD = "12345";
 
   function login() {
-    const pass = document.getElementById("password").value;
-
-    if (pass === ADMIN_PASSWORD) {
+    if (document.getElementById("password").value === ADMIN_PASSWORD) {
       document.getElementById("loginBox").classList.add("hidden");
       document.getElementById("adminBox").classList.remove("hidden");
     } else {
@@ -93,22 +84,19 @@
     let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
 
     let job = {
-      title: document.getElementById("title").value,
-      qualification: document.getElementById("qualification").value,
-      lastDate: document.getElementById("lastDate").value,
-      age: document.getElementById("age").value,
-      id: Date.now()
+      id: Date.now(),
+      title: title.value,
+      qualification: qualification.value,
+      lastDate: lastDate.value,
+      age: age.value,
+      state: state.value
     };
 
     jobs.push(job);
     localStorage.setItem("jobs", JSON.stringify(jobs));
-
     alert("Job Added Successfully");
 
-    document.getElementById("title").value = "";
-    document.getElementById("qualification").value = "";
-    document.getElementById("lastDate").value = "";
-    document.getElementById("age").value = "";
+    title.value = qualification.value = lastDate.value = age.value = state.value = "";
   }
 </script>
 
