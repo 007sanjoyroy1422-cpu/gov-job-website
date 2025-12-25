@@ -9,77 +9,117 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
+      background: #f4f6f8;
     }
-
     header {
-      background-color: #1a73e8;
+      background: #1a73e8;
       color: white;
       padding: 15px;
       text-align: center;
       font-size: 20px;
       font-weight: bold;
     }
-
     .container {
       padding: 15px;
     }
-
-    .box {
-      background-color: white;
+    .card {
+      background: white;
       padding: 15px;
       border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
     }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1a73e8;
+      margin-bottom: 10px;
     }
-
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
+    .info {
+      font-size: 14px;
+      line-height: 1.6;
     }
-
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #333;
+    }
     .apply-btn {
       display: block;
-      margin-top: 15px;
-      padding: 12px;
-      background-color: #1a73e8;
-      color: white;
       text-align: center;
+      padding: 12px;
+      background: #1a73e8;
+      color: white;
       text-decoration: none;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 14px;
+      text-decoration: none;
+      color: #1a73e8;
     }
   </style>
 </head>
 
 <body>
 
-<header id="title">Job Details</header>
+<header>Job Details</header>
 
-<div class="container" id="content"></div>
+<div class="container" id="jobContainer"></div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("job");
-
   let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-  let job = jobs.find(j => j.id == id);
+  let params = new URLSearchParams(window.location.search);
+  let jobId = params.get("job");
 
-  if (job) {
-    document.getElementById("title").innerText = job.title;
+  let job = jobs.find(j => j.id == jobId);
+  let box = document.getElementById("jobContainer");
 
-    document.getElementById("content").innerHTML = `
-      <div class="box">
-        <table>
-          <tr><td>Qualification</td><td>${job.qualification}</td></tr>
-          <tr><td>Age Limit</td><td>${job.age}</td></tr>
-          <tr><td>Last Date</td><td>${job.lastDate}</td></tr>
-        </table>
-        <a href="#" class="apply-btn">Apply Online</a>
+  if (!job) {
+    box.innerHTML = "<p>Job not found.</p>";
+  } else {
+    box.innerHTML = `
+      <div class="card">
+        <div class="title">${job.title}</div>
+
+        <div class="info">
+          <b>Qualification:</b> ${job.qualification}<br>
+          <b>State:</b> ${job.state}<br>
+          <b>Last Date:</b> ${job.lastDate}<br>
+          <b>Salary:</b> ${job.salary || "As per rules"}
+        </div>
       </div>
+
+      <div class="card">
+        <div class="section-title">Vacancy Details</div>
+        <div class="info">
+          Total Post: ${job.vacancy || "Not mentioned"}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Selection Process</div>
+        <div class="info">
+          ${job.selection || "Written Exam / Interview"}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">How to Apply</div>
+        <div class="info">
+          ${job.apply || "Apply online through official website."}
+        </div>
+        <a href="${job.applyLink || '#'}" target="_blank" class="apply-btn">
+          Apply Online
+        </a>
+      </div>
+
+      <a href="index.html" class="back-btn">← Back to Job List</a>
     `;
   }
 </script>
