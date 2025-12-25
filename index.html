@@ -36,14 +36,12 @@
     .job-title {
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 5px;
       color: #1a73e8;
     }
 
     .job-info {
       font-size: 14px;
-      margin-bottom: 10px;
-      color: #333;
+      margin: 8px 0;
     }
 
     .view-btn {
@@ -67,44 +65,36 @@
 
 <body>
 
-<header>
-  🇮🇳 All India Government Jobs
-</header>
+<header>🇮🇳 All India Government Jobs</header>
 
-<div class="container">
-
-  <div class="job-card">
-    <div class="job-title">SSC GD Constable 2025</div>
-    <div class="job-info">
-      Qualification: 10th Pass <br>
-      Last Date: 25 Jan 2025
-    </div>
-    <a href="job-details.html?job=sscgd" class="view-btn">View Details</a>
-  </div>
-
-  <div class="job-card">
-    <div class="job-title">Railway Group D</div>
-    <div class="job-info">
-      Qualification: 10th / ITI <br>
-      Last Date: 10 Feb 2025
-    </div>
-    <a href="job-details.html?job=railway" class="view-btn">View Details</a>
-  </div>
-
-  <div class="job-card">
-    <div class="job-title">Bank Clerk Vacancy</div>
-    <div class="job-info">
-      Qualification: Graduate <br>
-      Last Date: 5 Feb 2025
-    </div>
-    <a href="job-details.html?job=bank" class="view-btn">View Details</a>
-  </div>
-
-</div>
+<div class="container" id="jobList"></div>
 
 <footer>
   © 2025 Gov Job Website | Daily Job Updates
 </footer>
+
+<script>
+  let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+  let jobList = document.getElementById("jobList");
+
+  if (jobs.length === 0) {
+    jobList.innerHTML = "<p>No jobs added yet.</p>";
+  }
+
+  jobs.forEach(job => {
+    jobList.innerHTML += `
+      <div class="job-card">
+        <div class="job-title">${job.title}</div>
+        <div class="job-info">
+          Qualification: ${job.qualification}<br>
+          Last Date: ${job.lastDate}
+        </div>
+        <a href="job-details.html?job=${job.id}" class="view-btn">View Details</a>
+      </div>
+    `;
+  });
+</script>
 
 </body>
 </html>
