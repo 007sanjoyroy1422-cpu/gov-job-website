@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel - Protected</title>
+  <title>Admin Panel - Add Job</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
+      background: #f4f6f8;
     }
     header {
-      background-color: #1a73e8;
+      background: #1a73e8;
       color: white;
       padding: 15px;
       text-align: center;
@@ -22,82 +22,117 @@
     .container {
       padding: 15px;
     }
-    input, select, button {
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    input, select, textarea, button {
       width: 100%;
       padding: 10px;
-      margin-bottom: 12px;
+      margin-top: 8px;
       font-size: 15px;
     }
     button {
-      background-color: #1a73e8;
+      background: #1a73e8;
       color: white;
       border: none;
       border-radius: 5px;
+      font-size: 16px;
     }
-    .hidden {
-      display: none;
+    .job-item {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .delete-btn {
+      background: red;
+      font-size: 13px;
+      margin-top: 5px;
     }
   </style>
 </head>
 
 <body>
 
-<header>Admin Panel</header>
+<header>Admin Panel — Add Government Job</header>
 
-<div class="container" id="loginBox">
-  <input type="password" id="password" placeholder="Enter Admin Password">
-  <button onclick="login()">Login</button>
-</div>
+<div class="container">
 
-<div class="container hidden" id="adminBox">
-  <input id="title" placeholder="Job Title">
-  <input id="qualification" placeholder="Qualification">
-  <input id="lastDate" placeholder="Last Date">
-  <input id="age" placeholder="Age Limit">
+  <div class="card">
+    <h3>Add New Job</h3>
 
-  <select id="state">
-    <option value="">Select State</option>
-    <option>All India</option>
-    <option>West Bengal</option>
-    <option>Delhi</option>
-    <option>Uttar Pradesh</option>
-    <option>Bihar</option>
-    <option>Maharashtra</option>
-  </select>
+    <input id="title" placeholder="Job Title">
+    <input id="qualification" placeholder="Qualification (10th / ITI / Graduate)">
+    <input id="state" placeholder="State / All India">
+    <input id="lastDate" placeholder="Last Date">
+    <input id="salary" placeholder="Salary">
+    <input id="vacancy" placeholder="Vacancy">
+    <textarea id="selection" placeholder="Selection Process"></textarea>
+    <textarea id="apply" placeholder="How to Apply"></textarea>
+    <input id="applyLink" placeholder="Apply Online Link">
 
-  <button onclick="addJob()">Add Job</button>
+    <button onclick="addJob()">Add Job</button>
+  </div>
+
+  <div class="card">
+    <h3>Posted Jobs</h3>
+    <div id="jobList"></div>
+  </div>
+
 </div>
 
 <script>
-  const ADMIN_PASSWORD = "12345";
+  let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  let jobList = document.getElementById("jobList");
 
-  function login() {
-    if (document.getElementById("password").value === ADMIN_PASSWORD) {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("adminBox").classList.remove("hidden");
-    } else {
-      alert("Wrong Password");
-    }
+  function renderJobs() {
+    jobList.innerHTML = "";
+    jobs.forEach((job, index) => {
+      jobList.innerHTML += `
+        <div class="job-item">
+          ${job.title}
+          <button class="delete-btn" onclick="deleteJob(${index})">
+            Delete
+          </button>
+        </div>
+      `;
+    });
   }
 
   function addJob() {
-    let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-
     let job = {
       id: Date.now(),
       title: title.value,
       qualification: qualification.value,
+      state: state.value,
       lastDate: lastDate.value,
-      age: age.value,
-      state: state.value
+      salary: salary.value,
+      vacancy: vacancy.value,
+      selection: selection.value,
+      apply: apply.value,
+      applyLink: applyLink.value
     };
 
-    jobs.push(job);
+    jobs.unshift(job);
     localStorage.setItem("jobs", JSON.stringify(jobs));
-    alert("Job Added Successfully");
 
-    title.value = qualification.value = lastDate.value = age.value = state.value = "";
+    alert("Job Added Successfully!");
+
+    document.querySelectorAll("input, textarea").forEach(i => i.value = "");
+    renderJobs();
   }
+
+  function deleteJob(index) {
+    if (confirm("Delete this job?")) {
+      jobs.splice(index, 1);
+      localStorage.setItem("jobs", JSON.stringify(jobs));
+      renderJobs();
+    }
+  }
+
+  renderJobs();
 </script>
 
 </body>
