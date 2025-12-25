@@ -78,49 +78,60 @@
 
 <body>
 
-<header>
-  SSC GD Constable 2025
+<header id="jobTitle">
+  Job Details
 </header>
 
-<div class="container">
+<div class="container" id="jobContent"></div>
 
-  <div class="box">
-    <div class="title">Job Overview</div>
-    SSC GD Constable Recruitment 2025 notification released for various posts.
-  </div>
-
-  <div class="box">
-    <div class="title">Important Dates</div>
-    <table>
-      <tr><td>Start Date</td><td>01 Jan 2025</td></tr>
-      <tr><td>Last Date</td><td>25 Jan 2025</td></tr>
-      <tr><td>Exam Date</td><td>March 2025</td></tr>
-    </table>
-  </div>
-
-  <div class="box">
-    <div class="title">Eligibility</div>
-    <table>
-      <tr><td>Qualification</td><td>10th Pass</td></tr>
-      <tr><td>Age Limit</td><td>18 – 23 Years</td></tr>
-    </table>
-  </div>
-
-  <div class="box">
-    <div class="title">Application Fee</div>
-    <table>
-      <tr><td>General / OBC</td><td>₹100</td></tr>
-      <tr><td>SC / ST</td><td>₹0</td></tr>
-    </table>
-  </div>
-
-  <a href="#" class="apply-btn">Apply Online</a>
-
-  <div class="back">
-    <a href="index.html">← Back to Job List</a>
-  </div>
-
+<div class="back">
+  <a href="index.html">← Back to Job List</a>
 </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const job = params.get("job");
+
+  let data = {
+    sscgd: {
+      title: "SSC GD Constable 2025",
+      qualification: "10th Pass",
+      lastDate: "25 Jan 2025",
+      age: "18 - 23 Years"
+    },
+    railway: {
+      title: "Railway Group D",
+      qualification: "10th / ITI",
+      lastDate: "10 Feb 2025",
+      age: "18 - 33 Years"
+    },
+    bank: {
+      title: "Bank Clerk Vacancy",
+      qualification: "Graduate",
+      lastDate: "5 Feb 2025",
+      age: "20 - 28 Years"
+    }
+  };
+
+  const jobData = data[job];
+
+  if (jobData) {
+    document.getElementById("jobTitle").innerText = jobData.title;
+
+    document.getElementById("jobContent").innerHTML = `
+      <div class="box">
+        <div class="title">Job Information</div>
+        <table>
+          <tr><td>Qualification</td><td>${jobData.qualification}</td></tr>
+          <tr><td>Age Limit</td><td>${jobData.age}</td></tr>
+          <tr><td>Last Date</td><td>${jobData.lastDate}</td></tr>
+        </table>
+      </div>
+
+      <a href="#" class="apply-btn">Apply Online</a>
+    `;
+  }
+</script>
 
 </body>
 </html>
