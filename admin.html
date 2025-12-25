@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel - Gov Job Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel - Add Job</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
@@ -11,40 +11,34 @@
       font-family: Arial, sans-serif;
       background-color: #f4f6f8;
     }
+
     header {
       background-color: #1a73e8;
       color: white;
       padding: 15px;
       text-align: center;
+      font-size: 20px;
+      font-weight: bold;
     }
+
     .container {
-      max-width: 500px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 15px;
     }
-    h2 {
-      color: #1a73e8;
-      margin-top: 0;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin: 6px 0;
-      box-sizing: border-box;
-    }
-    button {
+
+    input, button {
       width: 100%;
       padding: 10px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    button {
       background-color: #1a73e8;
       color: white;
       border: none;
       border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
     }
+
     .note {
       font-size: 13px;
       color: #555;
@@ -55,31 +49,44 @@
 
 <body>
 
-<header>
-  <h1>Admin Panel</h1>
-  <p>Gov Job Website</p>
-</header>
+<header>Admin Panel - Add Job</header>
 
 <div class="container">
-  <h2>Add New Job (Demo)</h2>
+  <input id="title" placeholder="Job Title">
+  <input id="qualification" placeholder="Qualification">
+  <input id="lastDate" placeholder="Last Date">
+  <input id="age" placeholder="Age Limit">
 
-  <input type="text" placeholder="Job Title (e.g. SSC GD Constable)">
-  <input type="text" placeholder="State (All India / West Bengal)">
-  <input type="text" placeholder="Qualification (10th / ITI)">
-  <input type="text" placeholder="Vacancy">
-  <input type="text" placeholder="Age Limit">
-  <input type="text" placeholder="Last Date">
-  <textarea placeholder="Selection Process"></textarea>
-  <input type="text" placeholder="Apply Link">
+  <button onclick="addJob()">Add Job</button>
 
-  <button>Add Job</button>
-
-  <p class="note">
-    ⚠️ This is a FRONTEND demo admin panel.<br>
-    Real database + login system will be added later.<br>
-    For now, jobs are managed from <b>jobs.js</b>.
-  </p>
+  <div class="note">
+    Added jobs will appear on homepage automatically.
+  </div>
 </div>
+
+<script>
+  function addJob() {
+    let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+    let job = {
+      title: document.getElementById("title").value,
+      qualification: document.getElementById("qualification").value,
+      lastDate: document.getElementById("lastDate").value,
+      age: document.getElementById("age").value,
+      id: Date.now()
+    };
+
+    jobs.push(job);
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+
+    alert("Job Added Successfully");
+
+    document.getElementById("title").value = "";
+    document.getElementById("qualification").value = "";
+    document.getElementById("lastDate").value = "";
+    document.getElementById("age").value = "";
+  }
+</script>
 
 </body>
 </html>
