@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel - Add Job</title>
+  <title>Admin Panel - Protected</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -39,6 +39,10 @@
       border-radius: 5px;
     }
 
+    .hidden {
+      display: none;
+    }
+
     .note {
       font-size: 13px;
       color: #555;
@@ -49,9 +53,16 @@
 
 <body>
 
-<header>Admin Panel - Add Job</header>
+<header>Admin Panel</header>
 
-<div class="container">
+<!-- LOGIN SECTION -->
+<div class="container" id="loginBox">
+  <input type="password" id="password" placeholder="Enter Admin Password">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- ADMIN SECTION -->
+<div class="container hidden" id="adminBox">
   <input id="title" placeholder="Job Title">
   <input id="qualification" placeholder="Qualification">
   <input id="lastDate" placeholder="Last Date">
@@ -60,11 +71,24 @@
   <button onclick="addJob()">Add Job</button>
 
   <div class="note">
-    Added jobs will appear on homepage automatically.
+    Only admin can add jobs.
   </div>
 </div>
 
 <script>
+  const ADMIN_PASSWORD = "12345"; // তুমি চাইলে change করতে পারো
+
+  function login() {
+    const pass = document.getElementById("password").value;
+
+    if (pass === ADMIN_PASSWORD) {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("adminBox").classList.remove("hidden");
+    } else {
+      alert("Wrong Password");
+    }
+  }
+
   function addJob() {
     let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
 
