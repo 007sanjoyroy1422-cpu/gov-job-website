@@ -21,6 +21,19 @@
       font-weight: bold;
     }
 
+    .search-box {
+      padding: 10px;
+      background-color: white;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
     .container {
       padding: 15px;
     }
@@ -67,6 +80,15 @@
 
 <header>🇮🇳 All India Government Jobs</header>
 
+<div class="search-box">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search job by title, qualification..."
+    onkeyup="searchJobs()"
+  >
+</div>
+
 <div class="container" id="jobList"></div>
 
 <footer>
@@ -75,25 +97,47 @@
 
 <script>
   let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-
   let jobList = document.getElementById("jobList");
 
-  if (jobs.length === 0) {
-    jobList.innerHTML = "<p>No jobs added yet.</p>";
+  function displayJobs(list) {
+    jobList.innerHTML = "";
+
+    if (list.length === 0) {
+      jobList.innerHTML = "<p>No jobs found.</p>";
+      return;
+    }
+
+    list.forEach(job => {
+      jobList.innerHTML += `
+        <div class="job-card">
+          <div class="job-title">${job.title}</div>
+          <div class="job-info">
+            Qualification: ${job.qualification}<br>
+            Last Date: ${job.lastDate}
+          </div>
+          <a href="job-details.html?job=${job.id}" class="view-btn">
+            View Details
+          </a>
+        </div>
+      `;
+    });
   }
 
-  jobs.forEach(job => {
-    jobList.innerHTML += `
-      <div class="job-card">
-        <div class="job-title">${job.title}</div>
-        <div class="job-info">
-          Qualification: ${job.qualification}<br>
-          Last Date: ${job.lastDate}
-        </div>
-        <a href="job-details.html?job=${job.id}" class="view-btn">View Details</a>
-      </div>
-    `;
-  });
+  function searchJobs() {
+    let keyword = document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+    let filtered = jobs.filter(job =>
+      job.title.toLowerCase().includes(keyword) ||
+      job.qualification.toLowerCase().includes(keyword)
+    );
+
+    displayJobs(filtered);
+  }
+
+  displayJobs(jobs);
 </script>
 
 </body>
