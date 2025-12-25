@@ -21,13 +21,16 @@
       font-weight: bold;
     }
 
-    .search-box {
-      padding: 10px;
+    .filter-box {
       background-color: white;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
     }
 
-    .search-box input {
-      width: 100%;
+    .filter-box input,
+    .filter-box select {
+      flex: 1;
       padding: 10px;
       font-size: 15px;
       border: 1px solid #ccc;
@@ -80,13 +83,20 @@
 
 <header>🇮🇳 All India Government Jobs</header>
 
-<div class="search-box">
+<div class="filter-box">
   <input
     type="text"
     id="searchInput"
-    placeholder="Search job by title, qualification..."
-    onkeyup="searchJobs()"
+    placeholder="Search job..."
+    onkeyup="applyFilter()"
   >
+
+  <select id="qualificationFilter" onchange="applyFilter()">
+    <option value="">All Qualifications</option>
+    <option value="10th">10th Pass</option>
+    <option value="ITI">ITI</option>
+    <option value="Graduate">Graduate</option>
+  </select>
 </div>
 
 <div class="container" id="jobList"></div>
@@ -123,16 +133,28 @@
     });
   }
 
-  function searchJobs() {
+  function applyFilter() {
     let keyword = document
       .getElementById("searchInput")
       .value
       .toLowerCase();
 
-    let filtered = jobs.filter(job =>
-      job.title.toLowerCase().includes(keyword) ||
-      job.qualification.toLowerCase().includes(keyword)
-    );
+    let qualification = document
+      .getElementById("qualificationFilter")
+      .value
+      .toLowerCase();
+
+    let filtered = jobs.filter(job => {
+      let matchText =
+        job.title.toLowerCase().includes(keyword) ||
+        job.qualification.toLowerCase().includes(keyword);
+
+      let matchQualification =
+        qualification === "" ||
+        job.qualification.toLowerCase().includes(qualification);
+
+      return matchText && matchQualification;
+    });
 
     displayJobs(filtered);
   }
