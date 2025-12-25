@@ -11,7 +11,6 @@
       font-family: Arial, sans-serif;
       background-color: #f4f6f8;
     }
-
     header {
       background-color: #1a73e8;
       color: white;
@@ -20,27 +19,22 @@
       font-size: 20px;
       font-weight: bold;
     }
-
     .filter-box {
       background-color: white;
       padding: 10px;
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-
     .filter-box input,
     .filter-box select {
       flex: 1;
       padding: 10px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      font-size: 14px;
     }
-
     .container {
       padding: 15px;
     }
-
     .job-card {
       background-color: white;
       padding: 15px;
@@ -48,18 +42,15 @@
       border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-
     .job-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: bold;
       color: #1a73e8;
     }
-
     .job-info {
       font-size: 14px;
-      margin: 8px 0;
+      margin: 6px 0;
     }
-
     .view-btn {
       display: inline-block;
       padding: 8px 15px;
@@ -69,13 +60,6 @@
       border-radius: 4px;
       font-size: 14px;
     }
-
-    footer {
-      text-align: center;
-      font-size: 13px;
-      color: #666;
-      padding: 15px;
-    }
   </style>
 </head>
 
@@ -84,77 +68,58 @@
 <header>🇮🇳 All India Government Jobs</header>
 
 <div class="filter-box">
-  <input
-    type="text"
-    id="searchInput"
-    placeholder="Search job..."
-    onkeyup="applyFilter()"
-  >
+  <input id="searchInput" placeholder="Search job..." onkeyup="applyFilter()">
 
   <select id="qualificationFilter" onchange="applyFilter()">
-    <option value="">All Qualifications</option>
-    <option value="10th">10th Pass</option>
-    <option value="ITI">ITI</option>
-    <option value="Graduate">Graduate</option>
+    <option value="">All Qualification</option>
+    <option>10th</option>
+    <option>ITI</option>
+    <option>Graduate</option>
+  </select>
+
+  <select id="stateFilter" onchange="applyFilter()">
+    <option value="">All States</option>
+    <option>All India</option>
+    <option>West Bengal</option>
+    <option>Delhi</option>
+    <option>Uttar Pradesh</option>
+    <option>Bihar</option>
+    <option>Maharashtra</option>
   </select>
 </div>
 
 <div class="container" id="jobList"></div>
-
-<footer>
-  © 2025 Gov Job Website | Daily Job Updates
-</footer>
 
 <script>
   let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   let jobList = document.getElementById("jobList");
 
   function displayJobs(list) {
-    jobList.innerHTML = "";
-
-    if (list.length === 0) {
-      jobList.innerHTML = "<p>No jobs found.</p>";
-      return;
-    }
-
+    jobList.innerHTML = list.length === 0 ? "<p>No jobs found.</p>" : "";
     list.forEach(job => {
       jobList.innerHTML += `
         <div class="job-card">
           <div class="job-title">${job.title}</div>
           <div class="job-info">
             Qualification: ${job.qualification}<br>
+            State: ${job.state}<br>
             Last Date: ${job.lastDate}
           </div>
-          <a href="job-details.html?job=${job.id}" class="view-btn">
-            View Details
-          </a>
-        </div>
-      `;
+          <a href="job-details.html?job=${job.id}" class="view-btn">View Details</a>
+        </div>`;
     });
   }
 
   function applyFilter() {
-    let keyword = document
-      .getElementById("searchInput")
-      .value
-      .toLowerCase();
+    let k = searchInput.value.toLowerCase();
+    let q = qualificationFilter.value.toLowerCase();
+    let s = stateFilter.value.toLowerCase();
 
-    let qualification = document
-      .getElementById("qualificationFilter")
-      .value
-      .toLowerCase();
-
-    let filtered = jobs.filter(job => {
-      let matchText =
-        job.title.toLowerCase().includes(keyword) ||
-        job.qualification.toLowerCase().includes(keyword);
-
-      let matchQualification =
-        qualification === "" ||
-        job.qualification.toLowerCase().includes(qualification);
-
-      return matchText && matchQualification;
-    });
+    let filtered = jobs.filter(j =>
+      (k === "" || j.title.toLowerCase().includes(k)) &&
+      (q === "" || j.qualification.toLowerCase().includes(q)) &&
+      (s === "" || j.state.toLowerCase().includes(s))
+    );
 
     displayJobs(filtered);
   }
